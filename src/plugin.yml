@@ -1,0 +1,11 @@
+main: com.CoocooFroggy.bomblobbers.Main
+name: BombLobbers
+author: CoocooFroggy
+version: 1.0
+api-version: 1.13
+
+commands:
+  bomblobbers:
+    description: Commands for the Bomb Lobbers plugin
+    usage: /bomblobbers [enable/disable, start/stop]
+    aliases: bl

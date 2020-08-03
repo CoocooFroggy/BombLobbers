@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Bomb Lobbers:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Bomb_Lobbers_jar</output-path>
+    <root id="archive" name="Bomb Lobbers.jar">
+      <element id="module-output" name="Bomb Lobbers" />
+    </root>
+  </artifact>
+</component>
