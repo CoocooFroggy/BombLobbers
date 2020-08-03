@@ -51,6 +51,6 @@ Toss bombs at your friends, and try to blow up the ground below them, or knock t
 
 Please report issues to the [issues section](https://github.com/JohnnnnyKlayy/BombLobbers/issues).  
   
-This project is open-source.
+This project is open-source and licensed under the [GNU General Public License v3.0](https://github.com/JohnnnnyKlayy/BombLobbers/blob/master/LICENSE).
 
 Check out the [spigot page for this plugin](https://www.spigotmc.org/resources/bomb-lobbers.82305/)!
