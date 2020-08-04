@@ -13,6 +13,8 @@ import org.bukkit.scoreboard.Scoreboard;
 import java.util.HashMap;
 import java.util.List;
 
+import static org.bukkit.Bukkit.getLogger;
+
 public class DeathListener implements Listener {
     static int deathCount = 0;
     static HashMap<String, Integer> teamsAndAliveCount = new HashMap<String, Integer>();
@@ -35,10 +37,18 @@ public class DeathListener implements Listener {
                     //Subtract 1 from the team alive count
                     teamsAndAliveCount.put(currentTeam, teamsAndAliveCount.get(currentTeam) - 1);
 
+                    //TODO: Debug
+                    getLogger().info("DeathListener 42");
+                    getLogger().info("teamsAndPlayers: " + DeathListener.teamsAndPlayers);
+                    getLogger().info("teamsAndAlive: " + DeathListener.teamsAndAlive);
+
                     //Remove player from team
-                    List<Player> teamList = teamsAndAlive.get(currentTeam);
-                    teamList.remove(player);
-                    teamsAndAlive.put(currentTeam, teamList);
+                    teamsAndAlive.get(currentTeam).remove(player);
+
+                    //TODO: Debug
+                    getLogger().info("DeathListener 49");
+                    getLogger().info("teamsAndPlayers: " + DeathListener.teamsAndPlayers);
+                    getLogger().info("teamsAndAlive: " + DeathListener.teamsAndAlive);
 
                     //Puts the player in spectator
                     player.setGameMode(GameMode.SPECTATOR);
@@ -47,8 +57,10 @@ public class DeathListener implements Listener {
                     player.setHealth(20);
 
                     //Respawns them
-                    Location spawn = player.getWorld().getSpawnLocation();
-                    player.teleport(spawn);
+                    if (player.getLocation().getY() < 0) {
+                        Location spawn = player.getWorld().getSpawnLocation();
+                        player.teleport(spawn);
+                    }
 
                     //Makes them not die (by not taking damage)
                     event.setCancelled(true);

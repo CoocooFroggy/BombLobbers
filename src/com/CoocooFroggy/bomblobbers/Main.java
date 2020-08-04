@@ -38,9 +38,9 @@ public class Main extends JavaPlugin {
         List<Player> blueList = new ArrayList<>();
         List<Player> redList = new ArrayList<>();
         List<Player> greenList = new ArrayList<>();
-        DeathListener.teamsAndPlayers.put("blue", blueList);
-        DeathListener.teamsAndPlayers.put("red", redList);
-        DeathListener.teamsAndPlayers.put("green", greenList);
+        DeathListener.teamsAndPlayers.put("blue", new ArrayList<>());
+        DeathListener.teamsAndPlayers.put("red", new ArrayList<>());
+        DeathListener.teamsAndPlayers.put("green", new ArrayList<>());
 
         //Set plugin
         plugin = this;

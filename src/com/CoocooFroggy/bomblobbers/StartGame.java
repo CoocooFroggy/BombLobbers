@@ -1,12 +1,10 @@
 package com.CoocooFroggy.bomblobbers;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Color;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static org.bukkit.Bukkit.getLogger;
@@ -21,9 +19,17 @@ public class StartGame {
         }
         gameStarted = true;
 
-        DeathListener.teamsAndAlive = new DeathListener().teamsAndPlayers;
+        //Make teamsAndAlive be teamsAndPlayers with a deep clone
+//        DeathListener.teamsAndAlive = (HashMap<String, List<Player>>) DeathListener.teamsAndPlayers.clone();
+        //FYI me of tomorrow, make this part below go through each list and add it to the new array
+        DeathListener.teamsAndAlive.put("blue", DeathListener.teamsAndPlayers.get("blue"));
+        DeathListener.teamsAndAlive.put("red", DeathListener.teamsAndPlayers.get("red"));
+        DeathListener.teamsAndAlive.put("green", DeathListener.teamsAndPlayers.get("green"));
 
         List<Player> playerList = player.getWorld().getPlayers();
+
+        //1 red stained glass pane
+        ItemStack paneStack = new ItemStack(Material.RED_STAINED_GLASS_PANE, 1);
 
         //1 stack of scaffold
         ItemStack scaffoldStack = new ItemStack(Material.SCAFFOLDING, 64);
@@ -33,6 +39,7 @@ public class StartGame {
 
         //Give players the items
         for (int i = 0; i < playerList.size(); i++) {
+            playerList.get(i).getInventory().addItem(paneStack);
             playerList.get(i).getInventory().addItem(scaffoldStack);
             playerList.get(i).getInventory().addItem(scaffoldStack);
             playerList.get(i).getInventory().addItem(enderPearlItemStack);
@@ -77,11 +84,20 @@ public class StartGame {
         int zeroCounter = 0;
 
         //Debug
+        debugLabel:
         while (Main.debug) {
-            //Give all players a tnt
+            //Perform to all players
             for (int i = 0; i < playerList.size(); i++) {
+                //Remove the pane placeholder
+                playerList.get(i).getInventory().removeItem(paneStack);
+                //Give all players a tnt
                 playerList.get(i).getInventory().addItem(tntItemStack);
             }
+
+            if (Main.stopSwitch) {
+                break debugLabel;
+            }
+
             //Wait 5 seconds
             try {
                 Thread.sleep(5000);
@@ -99,8 +115,11 @@ public class StartGame {
         while (zeroCounter < 2) {
             zeroCounter = 0;
 
-            //Give all players a tnt
+            //Perform to all players
             for (int i = 0; i < playerList.size(); i++) {
+                //Remeove the pane placeholder
+                playerList.get(i).getInventory().removeItem(paneStack);
+                //Give all players a tnt
                 playerList.get(i).getInventory().addItem(tntItemStack);
             }
 
@@ -166,6 +185,23 @@ public class StartGame {
         DeathListener.teamsAndAliveCount.put("blue", 0);
         DeathListener.teamsAndAliveCount.put("red", 0);
         DeathListener.teamsAndAliveCount.put("green", 0);
+
+        //Put everyone in creative, clear their inventories (except for armor)
+        Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
+            @Override
+            public void run() {
+                for (Player currentPlayer : playerList) {
+                    //Put them in creative
+                    currentPlayer.setGameMode(GameMode.CREATIVE);
+
+                    //Save their armor when clearing inventory
+                    ItemStack[] armorContents = currentPlayer.getInventory().getArmorContents().clone();
+                    currentPlayer.getInventory().clear();
+                    currentPlayer.getInventory().setArmorContents(armorContents);
+                    currentPlayer.updateInventory();
+                }
+            }
+        });
 
         //Turn off the game
         gameStarted = false;
