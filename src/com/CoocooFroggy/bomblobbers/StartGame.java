@@ -70,12 +70,11 @@ public class StartGame {
                     currentPlayer.updateInventory();
 
                     //Give players the items
-                    for (int i = 0; i < playerList.size(); i++) {
-                        playerList.get(i).getInventory().addItem(paneStack);
-                        playerList.get(i).getInventory().addItem(scaffoldStack);
-                        playerList.get(i).getInventory().addItem(scaffoldStack);
-                        playerList.get(i).getInventory().addItem(enderPearlItemStack);
-                    }
+                    currentPlayer.getInventory().addItem(paneStack);
+                    currentPlayer.getInventory().addItem(scaffoldStack);
+                    currentPlayer.getInventory().addItem(scaffoldStack);
+                    currentPlayer.getInventory().addItem(enderPearlItemStack);
+
                 }
             }
         });
