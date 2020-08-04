@@ -5,6 +5,8 @@ Toss bombs at your friends, and try to blow up the ground below them, or knock t
 
 (Map not included)
 
+[Download the beta here](https://github.com/JohnnnnyKlayy/BombLobbers/releases)!
+
 # Features
 
 -   Right click with TNT to toss it
