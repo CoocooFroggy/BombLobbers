@@ -63,25 +63,17 @@ public class InventoryListener implements Listener {
             //Add 1 count to teamsAndAliveCount for team
             DeathListener.teamsAndAliveCount.put("blue", DeathListener.teamsAndAliveCount.get("blue") + 1);
 
-            //Remove player from other teams
-            String currentOtherTeam = "red";
-            for (int i = 0; i < 2; i++) {
+            //Remove player from all teams
+            String currentOtherTeam = "blue";
+            for (int i = 0; i < 3; i++) {
                 List<Player> otherTeamList = DeathListener.teamsAndPlayers.get(currentOtherTeam);
                 otherTeamList.remove(player);
                 DeathListener.teamsAndPlayers.put(currentOtherTeam, otherTeamList);
-                currentOtherTeam = "green";
+                if (i == 0)
+                    currentOtherTeam = "red";
+                if (i == 1)
+                    currentOtherTeam = "green";
             }
-
-//            //Debug
-//            List<Player> bluePlayers = DeathListener.teamsAndPlayers.get("blue");
-//            List<Player> redPlayers = DeathListener.teamsAndPlayers.get("red");
-//            List<Player> greenPlayers = DeathListener.teamsAndPlayers.get("green");
-//            getLogger().info("Blue players: " + bluePlayers.size());
-//            getLogger().info("Players: " + bluePlayers);
-//            getLogger().info("Red players: " + redPlayers.size());
-//            getLogger().info("Players: " + redPlayers);
-//            getLogger().info("Green players: " + greenPlayers.size());
-//            getLogger().info("Players: " + greenPlayers);
 
             //Add player to team dictionary
             DeathListener.teamsAndPlayers.get("blue").add(player);
@@ -124,13 +116,16 @@ public class InventoryListener implements Listener {
             //Add 1 count to teamsAndAliveCount for team
             DeathListener.teamsAndAliveCount.put("red", DeathListener.teamsAndAliveCount.get("red") + 1);
 
-            //Remove player from other teams
+            //Remove player from all teams
             String currentOtherTeam = "blue";
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < 3; i++) {
                 List<Player> otherTeamList = DeathListener.teamsAndPlayers.get(currentOtherTeam);
                 otherTeamList.remove(player);
                 DeathListener.teamsAndPlayers.put(currentOtherTeam, otherTeamList);
-                currentOtherTeam = "green";
+                if (i == 0)
+                    currentOtherTeam = "red";
+                if (i == 1)
+                    currentOtherTeam = "green";
             }
 
             //Add player to team dictionary
@@ -175,13 +170,16 @@ public class InventoryListener implements Listener {
             //Add 1 count to teamsAndAliveCount for team
             DeathListener.teamsAndAliveCount.put("green", DeathListener.teamsAndAliveCount.get("green") + 1);
 
-            //Remove player from other teams
+            //Remove player from all teams
             String currentOtherTeam = "blue";
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < 3; i++) {
                 List<Player> otherTeamList = DeathListener.teamsAndPlayers.get(currentOtherTeam);
                 otherTeamList.remove(player);
                 DeathListener.teamsAndPlayers.put(currentOtherTeam, otherTeamList);
-                currentOtherTeam = "red";
+                if (i == 0)
+                    currentOtherTeam = "red";
+                if (i == 1)
+                    currentOtherTeam = "green";
             }
 
             //Add player to team dictionary
