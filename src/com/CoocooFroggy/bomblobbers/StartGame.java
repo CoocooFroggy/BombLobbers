@@ -10,6 +10,7 @@ import static org.bukkit.Bukkit.getLogger;
 
 public class StartGame {
     static boolean gameStarted;
+    static List<Player> playerList;
 
     public boolean startGame(Player player) {
         if (gameStarted) {
@@ -39,7 +40,7 @@ public class StartGame {
             DeathListener.teamsAndAlive.get("green").add(currentPlayer);
         }
 
-        List<Player> playerList = player.getWorld().getPlayers();
+        playerList = player.getWorld().getPlayers();
 
         for (int i = 0; i < playerList.size(); i++) {
             playerList.get(i).sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Bomb lobbers starting soon!");
@@ -120,73 +121,35 @@ public class StartGame {
             playerList.get(i).sendTitle(ChatColor.DARK_GREEN + "Start!", null, 4, 30, 7);
         }
 
-        //1 tnt as an ItemStack
-        ItemStack tntItemStack = new ItemStack(Material.TNT, 1);
+        //WinDetector
+        WinDetector.winnerFound = false;
 
-        int zeroCounter = 0;
-
-        //Debug
-        debugLabel:
-        while (Main.debug) {
-            //Perform to all players
-            for (int i = 0; i < playerList.size(); i++) {
-                //Remove the pane placeholder
-                playerList.get(i).getInventory().removeItem(paneStack);
-                //Give all players a tnt
-                playerList.get(i).getInventory().addItem(tntItemStack);
+        //Start up WinDetector asynchronously
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, new Runnable() {
+            @Override
+            public void run() {
+                WinDetector.winDetector();
             }
+        });
 
-            if (Main.stopSwitch) {
-                break debugLabel;
-            }
-
-            //Wait 5 seconds
-            try {
-                Thread.sleep(5000);
-            } catch (Exception e) {
-                getLogger().info("Couldn't sleep: " + e);
-            }
-
-            //This is just here so that IntelliJ doesn't get mad at me
-            if (false) {
-                break;
-            }
+        //Perform to all players
+        for (int i = 0; i < playerList.size(); i++) {
+            //Remove the pane placeholder
+            playerList.get(i).getInventory().removeItem(paneStack);
         }
 
-        whileLabel:
-        while (zeroCounter < 2) {
-            zeroCounter = 0;
-
-            //Perform to all players
-            for (int i = 0; i < playerList.size(); i++) {
-                //Remeove the pane placeholder
-                playerList.get(i).getInventory().removeItem(paneStack);
-                //Give all players a tnt
-                playerList.get(i).getInventory().addItem(tntItemStack);
+        //Start giving TNT asynchronously
+        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, new Runnable() {
+            @Override
+            public void run() {
+                TNTDistributor.distribute();
             }
+        });
 
-            //Check to see what teams have no players alive
-            List<Player> bluePlayers = DeathListener.teamsAndAlive.get("blue");
-            List<Player> redPlayers = DeathListener.teamsAndAlive.get("red");
-            List<Player> greenPlayers = DeathListener.teamsAndAlive.get("green");
-
-            if (bluePlayers.size() < 1) {
-                zeroCounter++;
-            }
-            if (redPlayers.size() < 1) {
-                zeroCounter++;
-            }
-            if (greenPlayers.size() < 1) {
-                zeroCounter++;
-            }
-
-            if (Main.stopSwitch) {
-                break whileLabel;
-            }
-
-            //Wait 5 seconds
+        while (!WinDetector.winnerFound) {
+            //Stall until winner is found
             try {
-                Thread.sleep(5000);
+                Thread.sleep(100);
             } catch (Exception e) {
                 getLogger().info("Couldn't sleep: " + e);
             }
