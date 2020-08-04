@@ -35,12 +35,14 @@ public class Main extends JavaPlugin {
         DeathListener.teamsAndAliveCount.put("green", 0);
 
         //Set default values for teamsAndPlayers
-        List<Player> blueList = new ArrayList<>();
-        List<Player> redList = new ArrayList<>();
-        List<Player> greenList = new ArrayList<>();
         DeathListener.teamsAndPlayers.put("blue", new ArrayList<>());
         DeathListener.teamsAndPlayers.put("red", new ArrayList<>());
         DeathListener.teamsAndPlayers.put("green", new ArrayList<>());
+
+        //Set default values for teamsAndAlive
+        DeathListener.teamsAndAlive.put("blue", new ArrayList<>());
+        DeathListener.teamsAndAlive.put("red", new ArrayList<>());
+        DeathListener.teamsAndAlive.put("green", new ArrayList<>());
 
         //Set plugin
         plugin = this;

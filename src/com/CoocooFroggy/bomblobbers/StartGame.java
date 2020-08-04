@@ -4,7 +4,6 @@ import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
 import java.util.List;
 
 import static org.bukkit.Bukkit.getLogger;
@@ -20,11 +19,21 @@ public class StartGame {
         gameStarted = true;
 
         //Make teamsAndAlive be teamsAndPlayers with a deep clone
-//        DeathListener.teamsAndAlive = (HashMap<String, List<Player>>) DeathListener.teamsAndPlayers.clone();
-        //FYI me of tomorrow, make this part below go through each list and add it to the new array
-        DeathListener.teamsAndAlive.put("blue", DeathListener.teamsAndPlayers.get("blue"));
-        DeathListener.teamsAndAlive.put("red", DeathListener.teamsAndPlayers.get("red"));
-        DeathListener.teamsAndAlive.put("green", DeathListener.teamsAndPlayers.get("green"));
+        List<Player> blueList = DeathListener.teamsAndPlayers.get("blue");
+        List<Player> redList = DeathListener.teamsAndPlayers.get("red");
+        List<Player> greenList = DeathListener.teamsAndPlayers.get("green");
+        for (Player currentPlayer :
+                blueList) {
+            DeathListener.teamsAndAlive.get("blue").add(currentPlayer);
+        }
+        for (Player currentPlayer :
+                redList) {
+            DeathListener.teamsAndAlive.get("red").add(currentPlayer);
+        }
+        for (Player currentPlayer :
+                greenList) {
+            DeathListener.teamsAndAlive.get("green").add(currentPlayer);
+        }
 
         List<Player> playerList = player.getWorld().getPlayers();
 

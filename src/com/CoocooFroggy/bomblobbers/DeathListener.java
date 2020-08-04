@@ -37,18 +37,8 @@ public class DeathListener implements Listener {
                     //Subtract 1 from the team alive count
                     teamsAndAliveCount.put(currentTeam, teamsAndAliveCount.get(currentTeam) - 1);
 
-                    //TODO: Debug
-                    getLogger().info("DeathListener 42");
-                    getLogger().info("teamsAndPlayers: " + DeathListener.teamsAndPlayers);
-                    getLogger().info("teamsAndAlive: " + DeathListener.teamsAndAlive);
-
                     //Remove player from team
                     teamsAndAlive.get(currentTeam).remove(player);
-
-                    //TODO: Debug
-                    getLogger().info("DeathListener 49");
-                    getLogger().info("teamsAndPlayers: " + DeathListener.teamsAndPlayers);
-                    getLogger().info("teamsAndAlive: " + DeathListener.teamsAndAlive);
 
                     //Puts the player in spectator
                     player.setGameMode(GameMode.SPECTATOR);
