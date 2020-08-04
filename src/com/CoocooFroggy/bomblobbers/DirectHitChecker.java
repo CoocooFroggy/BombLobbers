@@ -42,7 +42,7 @@ public class DirectHitChecker {
 
                 if (currentPlayer.getBoundingBox().overlaps(tntEntity.getBoundingBox())) {
 //                    getLogger().info("Same block (success)!");
-                    currentPlayer.setVelocity(tntEntity.getVelocity().multiply(4));
+                    currentPlayer.setVelocity(tntEntity.getLocation().getDirection().multiply(4));
                     Player finalCurrentPlayer = currentPlayer;
                     Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
                         @Override
