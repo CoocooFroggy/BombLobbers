@@ -16,6 +16,10 @@ public class StartGame {
             player.sendMessage(ChatColor.RED + "Game already running! Stop the game by using " + ChatColor.GOLD + "/bomblobbers stop");
             return false;
         }
+        if (!Main.mainSwitch) {
+            player.sendMessage(ChatColor.RED + "You need to enable the plugin first! " + ChatColor.GOLD + "/bomblobbers enable");
+            return false;
+        }
         gameStarted = true;
 
         //Make teamsAndAlive be teamsAndPlayers with a deep clone
@@ -37,6 +41,10 @@ public class StartGame {
 
         List<Player> playerList = player.getWorld().getPlayers();
 
+        for (int i = 0; i < playerList.size(); i++) {
+            playerList.get(i).sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Bomb lobbers starting soon!");
+        }
+
         //1 red stained glass pane
         ItemStack paneStack = new ItemStack(Material.RED_STAINED_GLASS_PANE, 1);
 
@@ -46,22 +54,34 @@ public class StartGame {
         //3 enderpearls
         ItemStack enderPearlItemStack = new ItemStack(Material.ENDER_PEARL, 3);
 
-        //Give players the items
-        for (int i = 0; i < playerList.size(); i++) {
-            playerList.get(i).getInventory().addItem(paneStack);
-            playerList.get(i).getInventory().addItem(scaffoldStack);
-            playerList.get(i).getInventory().addItem(scaffoldStack);
-            playerList.get(i).getInventory().addItem(enderPearlItemStack);
-        }
+        //Put everyone in adventure, clear their inventories (except for armor), give them items
+        Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
+            @Override
+            public void run() {
+                for (Player currentPlayer : playerList) {
+                    //Put them in adventure
+                    currentPlayer.setGameMode(GameMode.ADVENTURE);
 
-        if (!Main.mainSwitch) {
-            player.sendMessage(ChatColor.RED + "You need to enable the plugin first! " + ChatColor.GOLD + "/bomblobbers enable");
-            return false;
-        }
+                    //Save their armor when clearing inventory
+                    ItemStack[] armorContents = currentPlayer.getInventory().getArmorContents().clone();
+                    currentPlayer.getInventory().clear();
+                    currentPlayer.getInventory().setArmorContents(armorContents);
+                    currentPlayer.updateInventory();
 
-        for (int i = 0; i < playerList.size(); i++) {
-            playerList.get(i).sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Bomb lobbers starting soon!");
-        }
+                    //Give players the items
+                    for (int i = 0; i < playerList.size(); i++) {
+                        playerList.get(i).getInventory().addItem(paneStack);
+                        playerList.get(i).getInventory().addItem(scaffoldStack);
+                        playerList.get(i).getInventory().addItem(scaffoldStack);
+                        playerList.get(i).getInventory().addItem(enderPearlItemStack);
+                    }
+                }
+            }
+        });
+
+
+
+        //Countdown code
         for (int j = 5; j > 0; j--) {
             for (int i = 0; i < playerList.size(); i++) {
                 if (j == 5) {
@@ -83,6 +103,19 @@ public class StartGame {
         } catch (Exception e) {
             getLogger().info("Couldn't sleep: " + e);
         }
+
+        //Put everyone in survival
+        Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
+            @Override
+            public void run() {
+                for (Player currentPlayer : playerList) {
+                    //Put them in survival
+                    currentPlayer.setGameMode(GameMode.SURVIVAL);
+                }
+            }
+        });
+
+        //Start message
         for (int i = 0; i < playerList.size(); i++) {
             playerList.get(i).sendTitle(ChatColor.DARK_GREEN + "Start!", null, 4, 30, 7);
         }
