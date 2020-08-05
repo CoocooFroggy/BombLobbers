@@ -10,7 +10,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,131 +71,33 @@ public class Main extends JavaPlugin {
         if (label.equalsIgnoreCase("bomblobbers") || label.equalsIgnoreCase("bl")) {
             if (!(args.length < 1)) {
                 if (args[0].equalsIgnoreCase("enable")) {
-                    // /bomblobbers enable
-                    mainSwitch = true;
-                    plugin.getConfig().set("plugin.enabled", true);
-                    plugin.saveConfig();
-                    sender.sendMessage(ChatColor.GREEN + "Enabled Bomb Lobbers plugin!");
-                    return true;
+                    //Run enable
+                    return enableCommand(sender, command, label, args);
                 } else if (args[0].equalsIgnoreCase("disable")) {
-                    // /bomblobbers disable
-                    if (StartGame.gameStarted) {
-                        sender.sendMessage(ChatColor.RED + "Game in progress! Stop the game first by using " + ChatColor.GOLD + "/bomblobbers stop");
-                        return false;
-                    }
-                    mainSwitch = false;
-                    plugin.getConfig().set("plugin.enabled", false);
-                    plugin.saveConfig();
-                    sender.sendMessage("Disabled Bomb Lobbers plugin!");
-                    return true;
+                    //Run disable
+                    return disableCommand(sender, command, label, args);
                 } else if (args[0].equalsIgnoreCase("start")) {
-                    //Command only runs for players
-                    if (sender instanceof Player) {
-                        // /bomblobbers start
-                        //Gamemode adventure
-                        List<Player> playerList = ((Player) sender).getWorld().getPlayers();
-                        for (int i = 0; i < playerList.size(); i++) {
-                            playerList.get(i).setGameMode(GameMode.SURVIVAL);
-                        }
-
-                        //Runs startGame asynchronously (bad idea?)
-                        StartGame nonStaticStartGame = new StartGame();
-                        gameTask = Bukkit.getScheduler().runTaskAsynchronously(this, new Runnable() {
-                            @Override
-                            public void run() {
-                                nonStaticStartGame.startGame((Player) sender);
-                            }
-                        });
-                        return true;
-                    }
+                    //Run start
+                    return startCommand(sender, command, label, args);
                 } else if (args[0].equalsIgnoreCase("stop")) {
-                    stopSwitch = true;
-                    sender.sendMessage("Stopped the game.");
-                    return true;
+                    //Run stop
+                    return stopCommand(sender, command, label, args);
                 } else if (args[0].equalsIgnoreCase("changeteam")) {
-                    // /bomblobbers changeteam
-                    if (!mainSwitch) {
-                        sender.sendMessage(ChatColor.RED + "You need to enable the plugin first! " + ChatColor.GOLD + "/bomblobbers enable");
-                        return true;
-                    }
-                    if (StartGame.gameStarted) {
-                        sender.sendMessage(ChatColor.RED + "Game in progress! Stop the game first by using " + ChatColor.GOLD + "/bomblobbers stop");
-                        return false;
-                    }
-                    if (sender instanceof Player) {
-                        ChangeTeam.changeTeam((Player) sender);
-                        return true;
-                    } else {
-                        sender.sendMessage("Sorry, you have to be a player to change teams.");
-                        return true;
-                    }
+                    //Run changeteam
+                    return changeTeamCommand(sender, command, label, args);
                 } else if (args[0].equalsIgnoreCase("debug")) {
-                    debug = true;
-                    mainSwitch = true;
-                    sender.sendMessage(ChatColor.GREEN + "Enabled Bomb Lobbers debug plugin!");
-                    return true;
+                    //Run debug command
+                    return debugCommand(sender, command, label, args);
                 } else if (args[0].equalsIgnoreCase("config")) {
-                    //MARK: Config
-                    if (args.length < 2) {
-                        //If "/bl config"
-                        sender.sendMessage(ChatColor.RED + "Specify what to config. Options are: " + ChatColor.GOLD + "velocity");
-                        return false;
-                    }
-                    if (args[1].equalsIgnoreCase("velocity")) {
-                        if (args.length < 3) {
-                            //If "/bl config velocity"
-                            sender.sendMessage(ChatColor.RED + "Specify the amount as a decimal.");
-                            return false;
-                        }
-                        //If "/bl config velocity _"
-                        float newVelocity;
-                        try {
-                            //If "/bl config velocity [float]"
-                            newVelocity = Float.parseFloat(args[2]);
-                        } catch (Exception e) {
-                            //If "/bl config velocity [Not a float]"
-                            sender.sendMessage(ChatColor.RED + "That is not a number. Please specify a number for the velocity.");
-                            getLogger().info("[Bomb Lobbers] Error: " + e);
-                            return false;
-                        }
-                        //If "/bl config velocity [float]"
-                        plugin.getConfig().set("throw-velocity.current", newVelocity);
-                        plugin.saveConfig();
-                        sender.sendMessage(ChatColor.GREEN + "Successfully set the new velocity to " + ChatColor.GOLD + newVelocity + ChatColor.GREEN + "!");
-                        return true;
-                    } else if (args[1].equalsIgnoreCase("givetime")) {
-                        if (args.length < 3) {
-                            //If "/bl config givetime"
-                            sender.sendMessage(ChatColor.RED + "Specify the amount as an integer.");
-                            return false;
-                        }
-                        //If "/bl config givetime _"
-                        int newGiveTime;
-                        try {
-                            //If "/bl config givetime [int]"
-                            newGiveTime = Integer.parseInt(args[2]);
-                        } catch (Exception e) {
-                            //If "/bl config givetime [Not an int]"
-                            sender.sendMessage(ChatColor.RED + "That is not a number. Please specify a number for the velocity.");
-                            getLogger().info("[Bomb Lobbers] Error: " + e);
-                            return false;
-                        }
-                        //If "/bl config velocity [int]"
-                        plugin.getConfig().set("give-time.current", newGiveTime);
-                        plugin.saveConfig();
-                        sender.sendMessage(ChatColor.GREEN + "Successfully set the new give time to " + ChatColor.GOLD + newGiveTime + ChatColor.GREEN + "!");
-                        return true;
-                    } else {
-                        //If "/bl config ____"
-                        sender.sendMessage(ChatColor.RED + "That is not a valid config. Options are: " + ChatColor.GOLD + "velocity");
-                        return false;
-                    }
+                    //Run config command
+                    return configCommand(sender, command, label, args);
                 } else {
                     //Sender didn't type a valid arg
                     sender.sendMessage(ChatColor.RED + "Syntax: /bomblobbers [enable/disable, start/stop, changeteam, config]");
                     return true;
                 }
             } else {
+                //if they just typed /bomblobbers or /bl
                 if (StartGame.gameStarted) {
                     sender.sendMessage(ChatColor.RED + "Game in progress! Stop the game first by using " + ChatColor.GOLD + "/bomblobbers stop");
                     return false;
@@ -216,5 +117,142 @@ public class Main extends JavaPlugin {
             }
         }
         return false;
+    }
+
+    public boolean enableCommand(CommandSender sender, Command command, String label, String[] args) {
+        // /bomblobbers enable
+        mainSwitch = true;
+        plugin.getConfig().set("plugin.enabled", true);
+        plugin.saveConfig();
+        sender.sendMessage(ChatColor.GREEN + "Enabled Bomb Lobbers plugin!");
+        return true;
+    }
+
+    public boolean disableCommand(CommandSender sender, Command command, String label, String[] args) {
+        // /bomblobbers disable
+        if (StartGame.gameStarted) {
+            sender.sendMessage(ChatColor.RED + "Game in progress! Stop the game first by using " + ChatColor.GOLD + "/bomblobbers stop");
+            return false;
+        }
+        mainSwitch = false;
+        plugin.getConfig().set("plugin.enabled", false);
+        plugin.saveConfig();
+        sender.sendMessage("Disabled Bomb Lobbers plugin!");
+        return true;
+    }
+
+    public boolean startCommand(CommandSender sender, Command command, String label, String[] args) {
+        //Command only runs for players
+        if (sender instanceof Player) {
+            // /bomblobbers start
+            //Gamemode adventure
+            List<Player> playerList = ((Player) sender).getWorld().getPlayers();
+            for (int i = 0; i < playerList.size(); i++) {
+                playerList.get(i).setGameMode(GameMode.SURVIVAL);
+            }
+
+            //Runs startGame asynchronously (bad idea?)
+            StartGame nonStaticStartGame = new StartGame();
+            gameTask = Bukkit.getScheduler().runTaskAsynchronously(this, new Runnable() {
+                @Override
+                public void run() {
+                    nonStaticStartGame.startGame((Player) sender);
+                }
+            });
+            return true;
+        } else {
+            sender.sendMessage(ChatColor.RED + "Sorry, you must be a player to run this command");
+            return false;
+        }
+    }
+
+    public boolean stopCommand(CommandSender sender, Command command, String label, String[] args) {
+        stopSwitch = true;
+        sender.sendMessage("Stopped the game.");
+        return true;
+    }
+
+    public boolean changeTeamCommand(CommandSender sender, Command command, String label, String[] args) {
+        // /bomblobbers changeteam
+        if (!mainSwitch) {
+            sender.sendMessage(ChatColor.RED + "You need to enable the plugin first! " + ChatColor.GOLD + "/bomblobbers enable");
+            return true;
+        }
+        if (StartGame.gameStarted) {
+            sender.sendMessage(ChatColor.RED + "Game in progress! Stop the game first by using " + ChatColor.GOLD + "/bomblobbers stop");
+            return false;
+        }
+        if (sender instanceof Player) {
+            ChangeTeam.changeTeam((Player) sender);
+            return true;
+        } else {
+            sender.sendMessage("Sorry, you have to be a player to change teams.");
+            return true;
+        }
+    }
+
+    public boolean debugCommand(CommandSender sender, Command command, String label, String[] args) {
+        debug = true;
+        mainSwitch = true;
+        sender.sendMessage(ChatColor.GREEN + "Enabled Bomb Lobbers debug plugin!");
+        return true;
+    }
+
+    public boolean configCommand(CommandSender sender, Command command, String label, String[] args) {
+        //MARK: Config
+        if (args.length < 2) {
+            //If "/bl config"
+            sender.sendMessage(ChatColor.RED + "Specify what to config. Options are: " + ChatColor.GOLD + "velocity");
+            return false;
+        }
+        if (args[1].equalsIgnoreCase("velocity")) {
+            if (args.length < 3) {
+                //If "/bl config velocity"
+                sender.sendMessage(ChatColor.RED + "Specify the amount as a decimal.");
+                return false;
+            }
+            //If "/bl config velocity _"
+            float newVelocity;
+            try {
+                //If "/bl config velocity [float]"
+                newVelocity = Float.parseFloat(args[2]);
+            } catch (Exception e) {
+                //If "/bl config velocity [Not a float]"
+                sender.sendMessage(ChatColor.RED + "That is not a number. Please specify a number for the velocity.");
+                getLogger().info("[Bomb Lobbers] Error: " + e);
+                return false;
+            }
+            //If "/bl config velocity [float]"
+            plugin.getConfig().set("throw-velocity.current", newVelocity);
+            plugin.saveConfig();
+            sender.sendMessage(ChatColor.GREEN + "Successfully set the new velocity to " + ChatColor.GOLD + newVelocity + ChatColor.GREEN + "!");
+            return true;
+        } else if (args[1].equalsIgnoreCase("givetime")) {
+            if (args.length < 3) {
+                //If "/bl config givetime"
+                sender.sendMessage(ChatColor.RED + "Specify the amount as an integer.");
+                return false;
+            }
+            //If "/bl config givetime _"
+            int newGiveTime;
+            try {
+                //If "/bl config givetime [int]"
+                newGiveTime = Integer.parseInt(args[2]);
+            } catch (Exception e) {
+                //If "/bl config givetime [Not an int]"
+                sender.sendMessage(ChatColor.RED + "That is not a number. Please specify a number for the give time.");
+                getLogger().info("[Bomb Lobbers] Error: " + e);
+                return false;
+            }
+            //If "/bl config velocity [int]"
+            plugin.getConfig().set("give-time.current", newGiveTime);
+            plugin.saveConfig();
+            sender.sendMessage(ChatColor.GREEN + "Successfully set the new give time to " + ChatColor.GOLD + newGiveTime + ChatColor.GREEN + "!");
+            return true;
+        } else {
+            //If "/bl config ____"
+            sender.sendMessage(ChatColor.RED + "That is not a valid config. Options are: " + ChatColor.GOLD + "velocity");
+            return false;
+        }
     }
 }
