@@ -8,6 +8,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
+import static com.CoocooFroggy.bomblobbers.Main.plugin;
 import static org.bukkit.Bukkit.getLogger;
 
 public class DirectHitChecker {
@@ -40,11 +41,15 @@ public class DirectHitChecker {
 //                //Make playerLocation + 1 in the Y
 //                Block newPlayerLocation = currentPlayer.getLocation().add(0, 1, 0).getBlock();
 
+                //If direct hit with player
                 if (currentPlayer.getBoundingBox().overlaps(tntEntity.getBoundingBox())) {
-//                    getLogger().info("Same block (success)!");
-                    currentPlayer.setVelocity(tntEntity.getVelocity().multiply(3));
+                    //Get config velocity multiplier
+                    double directHitVelocity = plugin.getConfig().getDouble("direct-hit-velocity.current");
+
+                    //Make player go brrr
+                    currentPlayer.setVelocity(tntEntity.getVelocity().multiply(directHitVelocity));
                     Player finalCurrentPlayer = currentPlayer;
-                    Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
+                    Bukkit.getScheduler().runTask(plugin, new Runnable() {
                         @Override
                         public void run() {
                             finalCurrentPlayer.damage(6);

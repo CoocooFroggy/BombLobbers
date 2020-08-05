@@ -56,7 +56,7 @@ public class RightClickListener implements Listener {
                     Entity newTNT = player.getWorld().spawnEntity(player.getEyeLocation(), EntityType.PRIMED_TNT);
 
                     //Make TNT go brrr
-                    float throwVelocity = plugin.getConfig().getInt("throw-velocity.current");
+                    double throwVelocity = plugin.getConfig().getDouble("throw-velocity.current");
                     newTNT.setVelocity(player.getEyeLocation().getDirection().multiply(throwVelocity));
 
                     //Start trackng the TNT

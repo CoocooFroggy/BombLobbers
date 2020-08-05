@@ -212,17 +212,17 @@ public class Main extends JavaPlugin {
                 return false;
             }
             //If "/bl config velocity _"
-            float newVelocity;
+            double newVelocity;
             try {
-                //If "/bl config velocity [float]"
-                newVelocity = Float.parseFloat(args[2]);
+                //If "/bl config velocity [double]"
+                newVelocity = Double.parseDouble(args[2]);
             } catch (Exception e) {
-                //If "/bl config velocity [Not a float]"
+                //If "/bl config velocity [Not a double]"
                 sender.sendMessage(ChatColor.RED + "That is not a number. Please specify a number for the velocity.");
                 getLogger().info("[Bomb Lobbers] Error: " + e);
                 return false;
             }
-            //If "/bl config velocity [float]"
+            //If "/bl config velocity [double]"
             plugin.getConfig().set("throw-velocity.current", newVelocity);
             plugin.saveConfig();
             sender.sendMessage(ChatColor.GREEN + "Successfully set the new velocity to " + ChatColor.GOLD + newVelocity + ChatColor.GREEN + "!");
@@ -274,9 +274,32 @@ public class Main extends JavaPlugin {
             sender.sendMessage(ChatColor.GREEN + "Successfully set the new cooldown to " + ChatColor.GOLD + newCooldown + ChatColor.GREEN + "!");
             return true;
         }
+        else if (args[1].equalsIgnoreCase("directhitvelocity")) {
+            if (args.length < 3) {
+                //If "/bl config directhitvelocity"
+                sender.sendMessage(ChatColor.RED + "Specify the amount as a decimal.");
+                return false;
+            }
+            //If "/bl config directhitvelocity _"
+            double newDirectHitVelocity;
+            try {
+                //If "/bl config directhitvelocity [double]"
+                newDirectHitVelocity = Double.parseDouble(args[2]);
+            } catch (Exception e) {
+                //If "/bl config directhitvelocity [Not a double]"
+                sender.sendMessage(ChatColor.RED + "That is not a number. Please specify a number for the direct hit velocity.");
+                getLogger().info("[Bomb Lobbers] Error: " + e);
+                return false;
+            }
+            //If "/bl config directhitvelocity [double]"
+            plugin.getConfig().set("direct-hit-velocity.current", newDirectHitVelocity);
+            plugin.saveConfig();
+            sender.sendMessage(ChatColor.GREEN + "Successfully set the new direct hit velocity to " + ChatColor.GOLD + newDirectHitVelocity + ChatColor.GREEN + "!");
+            return true;
+        }
         else {
             //If "/bl config ____"
-            sender.sendMessage(ChatColor.RED + "That is not a valid config. Options are: " + ChatColor.GOLD + "velocity, givetime, cooldown");
+            sender.sendMessage(ChatColor.RED + "That is not a valid config. Options are: " + ChatColor.GOLD + "velocity, givetime, cooldown, directhitvelocity");
             return false;
         }
     }

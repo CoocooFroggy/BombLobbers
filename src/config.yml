@@ -9,3 +9,6 @@ give-time:
 cooldown:
   default: 3
   current: 3
+direct-hit-velocity:
+  default: 3
+  current: 3
