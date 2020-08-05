@@ -29,6 +29,14 @@ public class Main extends JavaPlugin {
         //config.yml
         plugin.saveDefaultConfig();
 
+        //Enable the plugin if it was previously enabled
+        boolean previouslyEnabled = plugin.getConfig().getBoolean("plugin.enabled");
+        if (previouslyEnabled) {
+            mainSwitch = true;
+        } else {
+            mainSwitch = false;
+        }
+
         getServer().getPluginManager().registerEvents(new RightClickListener(), this);
         getServer().getPluginManager().registerEvents(new DeathListener(), this);
         getServer().getPluginManager().registerEvents(new WaterListener(), this);
@@ -66,6 +74,8 @@ public class Main extends JavaPlugin {
                 if (args[0].equalsIgnoreCase("enable")) {
                     // /bomblobbers enable
                     mainSwitch = true;
+                    plugin.getConfig().set("plugin.enabled", true);
+                    plugin.saveConfig();
                     sender.sendMessage(ChatColor.GREEN + "Enabled Bomb Lobbers plugin!");
                     return true;
                 } else if (args[0].equalsIgnoreCase("disable")) {
@@ -75,6 +85,8 @@ public class Main extends JavaPlugin {
                         return false;
                     }
                     mainSwitch = false;
+                    plugin.getConfig().set("plugin.enabled", false);
+                    plugin.saveConfig();
                     sender.sendMessage("Disabled Bomb Lobbers plugin!");
                     return true;
                 } else if (args[0].equalsIgnoreCase("start")) {
@@ -163,11 +175,19 @@ public class Main extends JavaPlugin {
                     return true;
                 }
             } else {
+                if (StartGame.gameStarted) {
+                    sender.sendMessage(ChatColor.RED + "Game in progress! Stop the game first by using " + ChatColor.GOLD + "/bomblobbers stop");
+                    return false;
+                }
                 mainSwitch = !mainSwitch;
                 if (mainSwitch) {
+                    plugin.getConfig().set("plugin.enabled", true);
+                    plugin.saveConfig();
                     sender.sendMessage(ChatColor.GREEN + "Enabled Bomb Lobbers plugin!");
                     return true;
                 } else {
+                    plugin.getConfig().set("plugin.enabled", false);
+                    plugin.saveConfig();
                     sender.sendMessage("Disabled Bomb Lobbers plugin!");
                     return true;
                 }
