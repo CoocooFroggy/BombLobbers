@@ -145,24 +145,46 @@ public class Main extends JavaPlugin {
                     if (args[1].equalsIgnoreCase("velocity")) {
                         if (args.length < 3) {
                             //If "/bl config velocity"
-                            sender.sendMessage(ChatColor.RED + "Specify the amount as an integer.");
+                            sender.sendMessage(ChatColor.RED + "Specify the amount as a decimal.");
                             return false;
                         }
                         //If "/bl config velocity _"
                         float newVelocity;
                         try {
-                            //If "/bl config velocity [int]"
+                            //If "/bl config velocity [float]"
                             newVelocity = Float.parseFloat(args[2]);
                         } catch (Exception e) {
-                            //If "/bl config velocity [Not an int]"
+                            //If "/bl config velocity [Not a float]"
+                            sender.sendMessage(ChatColor.RED + "That is not a number. Please specify a number for the velocity.");
+                            getLogger().info("[Bomb Lobbers] Error: " + e);
+                            return false;
+                        }
+                        //If "/bl config velocity [float]"
+                        plugin.getConfig().set("throw-velocity.current", newVelocity);
+                        plugin.saveConfig();
+                        sender.sendMessage(ChatColor.GREEN + "Successfully set the new velocity to " + ChatColor.GOLD + newVelocity + ChatColor.GREEN + "!");
+                        return true;
+                    } else if (args[1].equalsIgnoreCase("givetime")) {
+                        if (args.length < 3) {
+                            //If "/bl config givetime"
+                            sender.sendMessage(ChatColor.RED + "Specify the amount as an integer.");
+                            return false;
+                        }
+                        //If "/bl config givetime _"
+                        int newGiveTime;
+                        try {
+                            //If "/bl config givetime [int]"
+                            newGiveTime = Integer.parseInt(args[2]);
+                        } catch (Exception e) {
+                            //If "/bl config givetime [Not an int]"
                             sender.sendMessage(ChatColor.RED + "That is not a number. Please specify a number for the velocity.");
                             getLogger().info("[Bomb Lobbers] Error: " + e);
                             return false;
                         }
                         //If "/bl config velocity [int]"
-                        plugin.getConfig().set("throw-velocity.current", newVelocity);
+                        plugin.getConfig().set("give-time.current", newGiveTime);
                         plugin.saveConfig();
-                        sender.sendMessage(ChatColor.GREEN + "Successfully set the new velocity to " + newVelocity + "!");
+                        sender.sendMessage(ChatColor.GREEN + "Successfully set the new give time to " + ChatColor.GOLD + newGiveTime + ChatColor.GREEN + "!");
                         return true;
                     } else {
                         //If "/bl config ____"

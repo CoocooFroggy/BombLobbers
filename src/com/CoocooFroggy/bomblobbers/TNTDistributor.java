@@ -11,6 +11,9 @@ public class TNTDistributor {
         //1 tnt as an ItemStack
         ItemStack tntItemStack = new ItemStack(Material.TNT, 1);
 
+        //Get give-time in milliseconds
+        int giveTime = Main.plugin.getConfig().getInt("give-time.current") * 1000;
+
         while (!WinDetector.winnerFound) {
             //Perform to all players
             for (int i = 0; i < StartGame.playerList.size(); i++) {
@@ -18,9 +21,9 @@ public class TNTDistributor {
                 StartGame.playerList.get(i).getInventory().addItem(tntItemStack);
             }
 
-            //Wait 5 seconds
+            //Wait give-time seconds
             try {
-                Thread.sleep(5000);
+                Thread.sleep(giveTime);
             } catch (Exception e) {
                 getLogger().info("Couldn't sleep: " + e);
             }

@@ -2,4 +2,7 @@ plugin:
   enabled:
 throw-velocity:
   default: 1.5
-  current:
+  current: 1.5
+give-time:
+  default: 5
+  current: 5
