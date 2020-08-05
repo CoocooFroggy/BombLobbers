@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static com.CoocooFroggy.bomblobbers.Main.plugin;
 import static org.bukkit.Bukkit.getLogger;
 
 public class RightClickListener implements Listener {
@@ -54,11 +55,12 @@ public class RightClickListener implements Listener {
                     Entity newTNT = player.getWorld().spawnEntity(player.getEyeLocation(), EntityType.PRIMED_TNT);
 
                     //Make TNT go brrr
-                    newTNT.setVelocity(player.getEyeLocation().getDirection().multiply(1.5));
+                    float throwVelocity = plugin.getConfig().getInt("throw-velocity.current");
+                    newTNT.setVelocity(player.getEyeLocation().getDirection().multiply(throwVelocity));
 
                     //Start trackng the TNT
                     DirectHitChecker nonStaticDirectHitTracker = new DirectHitChecker();
-                    Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, new Runnable() {
+                    Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
                         @Override
                         public void run() {
                             nonStaticDirectHitTracker.trackTNT(newTNT, player);
@@ -67,7 +69,7 @@ public class RightClickListener implements Listener {
 
                     //Set cooldown
                     cooldown.add(player);
-                    Bukkit.getScheduler().runTaskLater(Main.plugin, new Runnable() {
+                    Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
                         @Override
                         public void run() {
                             cooldown.remove(player);
