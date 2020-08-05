@@ -8,3 +8,37 @@ commands:
   bomblobbers:
     description: Commands for the Bomb Lobbers plugin
     aliases: bl
+
+permissions:
+  bomblobbers.*:
+    description: Gives access to all Bomb Lobbers commands
+    children:
+      bomblobbers.start: true
+      bomblobbers.stop: true
+      bomblobbers.enable: true
+      bomblobbers.disable: true
+    default: op
+  bomblobbers.start:
+    description: Allows user to start a game
+    default: op
+  bomblobbers.stop:
+    description: Allows user to forcibly stop a game
+    default: op
+  bomblobbers.enable:
+    description: Allows user to enable the plugin
+    default: op
+  bomblobbers.disable:
+    description: Allows user to disable the plugin
+    default: op
+  bomblobbers.changeteam:
+    description: Allows user to choose & change their own team
+    default: op
+  bomblobbers.debug:
+    description: Allows user to enable debug version of the plugin (for single player testing)
+    default: op
+  bomblobbers.config:
+    description: Allows user to edit the config of the plugin
+    default: op
+  bomblobbers.quicktoggle:
+    description: Allows user to enable and disable the plugin by using "/bomblobbers"
+    default: op
