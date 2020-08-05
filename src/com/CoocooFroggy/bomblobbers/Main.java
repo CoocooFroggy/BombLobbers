@@ -194,7 +194,7 @@ public class Main extends JavaPlugin {
     public boolean debugCommand(CommandSender sender, Command command, String label, String[] args) {
         debug = true;
         mainSwitch = true;
-        sender.sendMessage(ChatColor.GREEN + "Enabled Bomb Lobbers debug plugin!");
+        sender.sendMessage(ChatColor.GREEN + "Enabled Bomb Lobbers plugin in debug mode!");
         return true;
     }
 
