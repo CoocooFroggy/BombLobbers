@@ -48,11 +48,16 @@ public class DirectHitChecker {
 
                     //Make player go brrr
                     currentPlayer.setVelocity(tntEntity.getVelocity().multiply(directHitVelocity));
+
+                    //Get config damage to player
+                    int directHitDamage = plugin.getConfig().getInt("direct-hit-damage.current");
+
+                    //Damage player in a new task, since it cannot be run asynchronously
                     Player finalCurrentPlayer = currentPlayer;
                     Bukkit.getScheduler().runTask(plugin, new Runnable() {
                         @Override
                         public void run() {
-                            finalCurrentPlayer.damage(6);
+                            finalCurrentPlayer.damage(directHitDamage);
                         }
                     });
                     thrower.playSound(thrower.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);

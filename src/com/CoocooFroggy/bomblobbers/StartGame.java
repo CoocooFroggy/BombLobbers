@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
+import static com.CoocooFroggy.bomblobbers.Main.plugin;
 import static org.bukkit.Bukkit.getLogger;
 
 public class StartGame {
@@ -56,7 +57,7 @@ public class StartGame {
         ItemStack enderPearlItemStack = new ItemStack(Material.ENDER_PEARL, 3);
 
         //Put everyone in adventure, clear their inventories (except for armor), give them items
-        Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
+        Bukkit.getScheduler().runTask(plugin, new Runnable() {
             @Override
             public void run() {
                 for (Player currentPlayer : playerList) {
@@ -79,12 +80,13 @@ public class StartGame {
             }
         });
 
+        //MARK: Countdown
+        //Get countdown amount
+        int countdown = plugin.getConfig().getInt("countdown.current");
 
-
-        //Countdown code
-        for (int j = 5; j > 0; j--) {
+        for (int j = countdown; j > 0; j--) {
             for (int i = 0; i < playerList.size(); i++) {
-                if (j == 5) {
+                if (j == countdown) {
                     playerList.get(i).sendTitle("Game starting in", null, 10, 25, 0);
                     playerList.get(i).sendTitle(null, j + "", 10, 25, 0);
                 } else {
@@ -105,7 +107,7 @@ public class StartGame {
         }
 
         //Put everyone in survival
-        Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
+        Bukkit.getScheduler().runTask(plugin, new Runnable() {
             @Override
             public void run() {
                 for (Player currentPlayer : playerList) {
@@ -124,7 +126,7 @@ public class StartGame {
         WinDetector.winnerFound = false;
 
         //Start up WinDetector asynchronously
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, new Runnable() {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
                 WinDetector.winDetector();
@@ -138,7 +140,7 @@ public class StartGame {
         }
 
         //Start giving TNT asynchronously
-        Bukkit.getScheduler().runTaskAsynchronously(Main.plugin, new Runnable() {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
                 TNTDistributor.distribute();
@@ -191,7 +193,7 @@ public class StartGame {
         DeathListener.teamsAndAliveCount.put("green", 0);
 
         //Put everyone in creative, clear their inventories (except for armor)
-        Bukkit.getScheduler().runTask(Main.plugin, new Runnable() {
+        Bukkit.getScheduler().runTask(plugin, new Runnable() {
             @Override
             public void run() {
                 for (Player currentPlayer : playerList) {

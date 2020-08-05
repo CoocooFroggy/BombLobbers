@@ -6,6 +6,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import static com.CoocooFroggy.bomblobbers.Main.plugin;
+
 public class WaterListener implements Listener {
     @EventHandler
     public boolean onWater(PlayerMoveEvent event) {
@@ -23,8 +25,11 @@ public class WaterListener implements Listener {
         Material currentBlock = event.getPlayer().getLocation().getBlock().getType();
         //If that block is water
         if (currentBlock == Material.WATER) {
-            //Damage then for 1 1/2 hearts (3 hp)
-            event.getPlayer().damage(3);
+            //Get config water damage
+            int waterDamage = plugin.getConfig().getInt("water-damage.current");
+
+            //Damage them for config amount
+            event.getPlayer().damage(waterDamage);
         }
         return true;
     }

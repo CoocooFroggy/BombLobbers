@@ -12,3 +12,12 @@ cooldown:
 direct-hit-velocity:
   default: 3
   current: 3
+direct-hit-damage:
+  default: 6
+  current: 6
+water-damage:
+  default: 3
+  current: 3
+countdown:
+  default: 5
+  current: 5

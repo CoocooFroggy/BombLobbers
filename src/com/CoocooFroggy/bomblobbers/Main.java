@@ -268,7 +268,7 @@ public class Main extends JavaPlugin {
                 getLogger().info("[Bomb Lobbers] Error: " + e);
                 return false;
             }
-            //If "/bl config velocity [int]"
+            //If "/bl config cooldown [int]"
             plugin.getConfig().set("cooldown.current", newCooldown);
             plugin.saveConfig();
             sender.sendMessage(ChatColor.GREEN + "Successfully set the new cooldown to " + ChatColor.GOLD + newCooldown + ChatColor.GREEN + "!");
@@ -297,9 +297,78 @@ public class Main extends JavaPlugin {
             sender.sendMessage(ChatColor.GREEN + "Successfully set the new direct hit velocity to " + ChatColor.GOLD + newDirectHitVelocity + ChatColor.GREEN + "!");
             return true;
         }
+        else if (args[1].equalsIgnoreCase("directhitdamage")) {
+            if (args.length < 3) {
+                //If "/bl config directhitdamage"
+                sender.sendMessage(ChatColor.RED + "Specify the amount as an integer.");
+                return false;
+            }
+            //If "/bl config directhitdamage _"
+            int newDirectHitDamage;
+            try {
+                //If "/bl config directhitdamage [int]"
+                newDirectHitDamage = Integer.parseInt(args[2]);
+            } catch (Exception e) {
+                //If "/bl config directhitdamage [Not an int]"
+                sender.sendMessage(ChatColor.RED + "That is not a number. Please specify a number for the direct hit damage.");
+                getLogger().info("[Bomb Lobbers] Error: " + e);
+                return false;
+            }
+            //If "/bl config directhitdamage [int]"
+            plugin.getConfig().set("direct-hit-damage.current", newDirectHitDamage);
+            plugin.saveConfig();
+            sender.sendMessage(ChatColor.GREEN + "Successfully set the new direct hit damage to " + ChatColor.GOLD + newDirectHitDamage + ChatColor.GREEN + "!");
+            return true;
+        }
+        else if (args[1].equalsIgnoreCase("waterdamage")) {
+            if (args.length < 3) {
+                //If "/bl config waterdamage"
+                sender.sendMessage(ChatColor.RED + "Specify the amount as an integer.");
+                return false;
+            }
+            //If "/bl config waterdamage _"
+            int newWaterDamage;
+            try {
+                //If "/bl config waterdamage [int]"
+                newWaterDamage = Integer.parseInt(args[2]);
+            } catch (Exception e) {
+                //If "/bl config waterdamage [Not an int]"
+                sender.sendMessage(ChatColor.RED + "That is not a number. Please specify a number for the water damage.");
+                getLogger().info("[Bomb Lobbers] Error: " + e);
+                return false;
+            }
+            //If "/bl config directhitdamage [int]"
+            plugin.getConfig().set("water-damage.current", newWaterDamage);
+            plugin.saveConfig();
+            sender.sendMessage(ChatColor.GREEN + "Successfully set the new water damage to " + ChatColor.GOLD + newWaterDamage + ChatColor.GREEN + "!");
+            return true;
+        }
+        else if (args[1].equalsIgnoreCase("countdown")) {
+            if (args.length < 3) {
+                //If "/bl config countdown"
+                sender.sendMessage(ChatColor.RED + "Specify the amount as an integer.");
+                return false;
+            }
+            //If "/bl config countdown _"
+            int newCountdown;
+            try {
+                //If "/bl config countdown [int]"
+                newCountdown = Integer.parseInt(args[2]);
+            } catch (Exception e) {
+                //If "/bl config countdown [Not an int]"
+                sender.sendMessage(ChatColor.RED + "That is not a number. Please specify a number for the countdown.");
+                getLogger().info("[Bomb Lobbers] Error: " + e);
+                return false;
+            }
+            //If "/bl config countdown [int]"
+            plugin.getConfig().set("countdown.current", newCountdown);
+            plugin.saveConfig();
+            sender.sendMessage(ChatColor.GREEN + "Successfully set the new countdown to " + ChatColor.GOLD + newCountdown + ChatColor.GREEN + "!");
+            return true;
+        }
         else {
             //If "/bl config ____"
-            sender.sendMessage(ChatColor.RED + "That is not a valid config. Options are: " + ChatColor.GOLD + "velocity, givetime, cooldown, directhitvelocity");
+            sender.sendMessage(ChatColor.RED + "That is not a valid config. Options are: " + ChatColor.GOLD + "velocity, givetime, cooldown, directhitvelocity, directhitdamage, waterdamage, countdown");
             return false;
         }
     }
