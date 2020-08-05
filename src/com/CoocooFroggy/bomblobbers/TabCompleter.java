@@ -16,7 +16,7 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
                 return Arrays.asList("enable", "disable", "start", "stop", "changeteam", "config");
             } else if (args.length == 2) {
                 if (args[0].contains("config")) {
-                    return Arrays.asList("velocity", "givetime");
+                    return Arrays.asList("velocity", "givetime", "cooldown");
                 }
             }
         }

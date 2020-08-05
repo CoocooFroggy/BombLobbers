@@ -227,7 +227,8 @@ public class Main extends JavaPlugin {
             plugin.saveConfig();
             sender.sendMessage(ChatColor.GREEN + "Successfully set the new velocity to " + ChatColor.GOLD + newVelocity + ChatColor.GREEN + "!");
             return true;
-        } else if (args[1].equalsIgnoreCase("givetime")) {
+        }
+        else if (args[1].equalsIgnoreCase("givetime")) {
             if (args.length < 3) {
                 //If "/bl config givetime"
                 sender.sendMessage(ChatColor.RED + "Specify the amount as an integer.");
@@ -249,9 +250,33 @@ public class Main extends JavaPlugin {
             plugin.saveConfig();
             sender.sendMessage(ChatColor.GREEN + "Successfully set the new give time to " + ChatColor.GOLD + newGiveTime + ChatColor.GREEN + "!");
             return true;
-        } else {
+        }
+        else if (args[1].equalsIgnoreCase("cooldown")) {
+            if (args.length < 3) {
+                //If "/bl config cooldown"
+                sender.sendMessage(ChatColor.RED + "Specify the amount as an integer.");
+                return false;
+            }
+            //If "/bl config cooldown _"
+            int newCooldown;
+            try {
+                //If "/bl config cooldown [int]"
+                newCooldown = Integer.parseInt(args[2]);
+            } catch (Exception e) {
+                //If "/bl config cooldown [Not an int]"
+                sender.sendMessage(ChatColor.RED + "That is not a number. Please specify a number for the cooldown.");
+                getLogger().info("[Bomb Lobbers] Error: " + e);
+                return false;
+            }
+            //If "/bl config velocity [int]"
+            plugin.getConfig().set("cooldown.current", newCooldown);
+            plugin.saveConfig();
+            sender.sendMessage(ChatColor.GREEN + "Successfully set the new cooldown to " + ChatColor.GOLD + newCooldown + ChatColor.GREEN + "!");
+            return true;
+        }
+        else {
             //If "/bl config ____"
-            sender.sendMessage(ChatColor.RED + "That is not a valid config. Options are: " + ChatColor.GOLD + "velocity");
+            sender.sendMessage(ChatColor.RED + "That is not a valid config. Options are: " + ChatColor.GOLD + "velocity, givetime, cooldown");
             return false;
         }
     }

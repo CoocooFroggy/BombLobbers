@@ -6,3 +6,6 @@ throw-velocity:
 give-time:
   default: 5
   current: 5
+cooldown:
+  default: 3
+  current: 3

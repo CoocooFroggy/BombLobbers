@@ -36,9 +36,10 @@ public class RightClickListener implements Listener {
                     event.setCancelled(true);
 
                     if (!cooldown.isEmpty()) {
+                        int cooldownTime = plugin.getConfig().getInt("cooldown.current");
                         for (int i = 0; i < cooldown.size(); i++) {
                             if (cooldown.get(i).equals(player)) {
-                                player.sendMessage(ChatColor.RED + "TNT is on cooldown for 3 seconds.");
+                                player.sendMessage(ChatColor.RED + "TNT is on cooldown for " + cooldownTime + " seconds.");
                                 return true;
                             }
                         }
@@ -67,14 +68,17 @@ public class RightClickListener implements Listener {
                         }
                     });
 
-                    //Set cooldown
+                    //MARK: Cooldown
+                    //Get cooldown
+                    long cooldownTime = plugin.getConfig().getInt("cooldown.current") * 20;
+
                     cooldown.add(player);
                     Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
                         @Override
                         public void run() {
                             cooldown.remove(player);
                         }
-                    }, 60L);
+                    }, cooldownTime);
 
                     return true;
                 }
