@@ -10,6 +10,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -414,15 +415,19 @@ public class Main extends JavaPlugin {
                     return false;
                 }
             }
-//            else if (args[1].equalsIgnoreCase("reset")) {
-//                //If "/bl config reset"
-//                Player player = (Player) sender;
-//                ManageItems.manageItems(player);
-//                return true;
-//            }
+            else if (args[1].equalsIgnoreCase("reset")) {
+                //If "/bl config reset"
+                //Delete the config and make a new one
+                File configFile = new File(plugin.getDataFolder(), "config.yml");
+                configFile.delete();
+                saveDefaultConfig();
+                reloadConfig();
+                sender.sendMessage("All config values reset.");
+                return true;
+            }
             else {
                 //If "/bl config ____"
-                sender.sendMessage(ChatColor.RED + "That is not a valid config. Options are: " + ChatColor.GOLD + "velocity, givetime, cooldown, directhitvelocity, directhitdamage, waterdamage, countdown, items");
+                sender.sendMessage(ChatColor.RED + "That is not a valid config. Options are: " + ChatColor.GOLD + "velocity, givetime, cooldown, directhitvelocity, directhitdamage, waterdamage, countdown, items, reset");
                 return false;
             }
         } else {

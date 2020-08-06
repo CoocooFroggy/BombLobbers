@@ -3,10 +3,13 @@ package com.CoocooFroggy.bomblobbers;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.CoocooFroggy.bomblobbers.Main.plugin;
+import static com.CoocooFroggy.bomblobbers.ManageItems.tntPlaceholder;
 import static org.bukkit.Bukkit.getLogger;
 
 public class StartGame {
@@ -133,7 +136,22 @@ public class StartGame {
         //Perform to all players
         for (int i = 0; i < playerList.size(); i++) {
             //Remove the pane placeholder
-            playerList.get(i).getInventory().removeItem(ManageItems.tntPlaceholder);
+            if (tntPlaceholder == null) {
+                //TNT placeholder itemstack
+                tntPlaceholder = new ItemStack(Material.RED_STAINED_GLASS_PANE, 1);
+                //TNT placeholder meta
+                ItemMeta tntPlaceholderMeta = tntPlaceholder.getItemMeta();
+                //TNT Display name
+                tntPlaceholderMeta.setDisplayName(ChatColor.RED + "TNT");
+                //TNT placeholder lore
+                List<String> tntPlaceholderLore = new ArrayList<>();
+                tntPlaceholderLore.add("TNT will always go in the first slot.");
+                //Set the lore to the Meta
+                tntPlaceholderMeta.setLore(tntPlaceholderLore);
+                //Set the Meta to the ItemStack
+                tntPlaceholder.setItemMeta(tntPlaceholderMeta);
+            }
+            playerList.get(i).getInventory().removeItem(tntPlaceholder);
         }
 
         //Start giving TNT asynchronously
