@@ -404,19 +404,22 @@ public class Main extends JavaPlugin {
                 return true;
             }
             else if (args[1].equalsIgnoreCase("items")) {
-                if (args.length < 3) {
-                    //If "/bl config items"
-                    if (sender instanceof Player) {
-                        Player player = (Player) sender;
-                        ManageItems.manageItems(player);
-                        return true;
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "You need to be a player to run this command.");
-                        return false;
-                    }
+                //If "/bl config items"
+                if (sender instanceof Player) {
+                    Player player = (Player) sender;
+                    ManageItems.manageItems(player);
+                    return true;
+                } else {
+                    sender.sendMessage(ChatColor.RED + "You need to be a player to run this command.");
+                    return false;
                 }
-                return true;
             }
+//            else if (args[1].equalsIgnoreCase("reset")) {
+//                //If "/bl config reset"
+//                Player player = (Player) sender;
+//                ManageItems.manageItems(player);
+//                return true;
+//            }
             else {
                 //If "/bl config ____"
                 sender.sendMessage(ChatColor.RED + "That is not a valid config. Options are: " + ChatColor.GOLD + "velocity, givetime, cooldown, directhitvelocity, directhitdamage, waterdamage, countdown, items");
