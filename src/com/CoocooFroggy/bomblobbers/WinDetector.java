@@ -64,7 +64,6 @@ public class WinDetector {
         }
 
         winnerFound = true;
-        getLogger().info("Winner found!");
         return true;
     }
 }

@@ -21,9 +21,6 @@ public class TNTDistributor {
                 StartGame.playerList.get(i).getInventory().addItem(tntItemStack);
             }
 
-            //TODO: Debug
-            getLogger().info("teamsAndAlive: " + DeathListener.teamsAndAlive);
-
             //Wait give-time seconds
             try {
                 Thread.sleep(giveTime);
