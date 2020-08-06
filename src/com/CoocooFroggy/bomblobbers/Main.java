@@ -240,7 +240,7 @@ public class Main extends JavaPlugin {
         if (sender.hasPermission("bomblobbers.config")) {
             if (args.length < 2) {
                 //If "/bl config"
-                sender.sendMessage(ChatColor.RED + "Specify what to config. Options are: " + ChatColor.GOLD + "velocity");
+                sender.sendMessage(ChatColor.RED + "Specify what to config. Options are: " + ChatColor.GOLD + "velocity, givetime, cooldown, directhitvelocity, directhitdamage, waterdamage, countdown, items, reset");
                 return false;
             }
             if (args[1].equalsIgnoreCase("velocity")) {

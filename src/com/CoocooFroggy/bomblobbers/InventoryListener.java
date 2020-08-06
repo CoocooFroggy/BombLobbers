@@ -226,5 +226,6 @@ public class InventoryListener implements Listener {
 
         plugin.getConfig().set("startingItems", contents);
         plugin.saveConfig();
+        event.getPlayer().sendMessage(ChatColor.GREEN + "Starting items saved.");
     }
 }
