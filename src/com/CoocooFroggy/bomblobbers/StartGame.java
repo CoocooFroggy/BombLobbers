@@ -25,6 +25,9 @@ public class StartGame {
         gameStarted = true;
 
         //Make teamsAndAlive be teamsAndPlayers with a deep clone
+        DeathListener.teamsAndAlive.get("blue").clear();
+        DeathListener.teamsAndAlive.get("red").clear();
+        DeathListener.teamsAndAlive.get("green").clear();
         List<Player> blueList = DeathListener.teamsAndPlayers.get("blue");
         List<Player> redList = DeathListener.teamsAndPlayers.get("red");
         List<Player> greenList = DeathListener.teamsAndPlayers.get("green");
