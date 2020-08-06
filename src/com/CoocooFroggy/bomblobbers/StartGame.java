@@ -71,10 +71,10 @@ public class StartGame {
                     currentPlayer.updateInventory();
 
                     //Give players the items
-                    for (ItemStack item : startingItems) {
-                        if (item == null)
+                    for (int i = 0; i < startingItems.size(); i++) {
+                        if (startingItems.get(i) == null)
                             continue;
-                        currentPlayer.getInventory().addItem(item);
+                        currentPlayer.getInventory().setItem(i, startingItems.get(i));
                     }
                 }
             }
