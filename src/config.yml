@@ -14,6 +14,8 @@ water-damage:
   current: 3
 countdown:
   current: 5
+death-messages:
+  current: true
 startingItems:
   - ==: org.bukkit.inventory.ItemStack
     v: 2567

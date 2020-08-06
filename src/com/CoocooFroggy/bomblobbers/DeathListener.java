@@ -13,6 +13,7 @@ import org.bukkit.scoreboard.Scoreboard;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.CoocooFroggy.bomblobbers.Main.plugin;
 import static org.bukkit.Bukkit.getLogger;
 
 public class DeathListener implements Listener {
@@ -46,7 +47,7 @@ public class DeathListener implements Listener {
                     //Heals them to full
                     player.setHealth(20);
 
-                    //Respawns them
+                    //Respawns them if they died under Y 0
                     if (player.getLocation().getY() < 0) {
                         Location spawn = player.getWorld().getSpawnLocation();
                         player.teleport(spawn);
@@ -57,6 +58,22 @@ public class DeathListener implements Listener {
 
                     //Tells them they died
                     player.sendTitle(ChatColor.RED + "You died!", null, 8, 30, 8);
+
+                    //Tells everyone they died
+                    //Get their team and color
+                    ChatColor deadColor = ChatColor.GRAY;
+                    if (currentTeam.equalsIgnoreCase("blue")) {
+                        deadColor = ChatColor.BLUE;
+                    } else if (currentTeam.equalsIgnoreCase("red")) {
+                        deadColor = ChatColor.RED;
+                    } else if (currentTeam.equalsIgnoreCase("green")) {
+                        deadColor = ChatColor.GREEN;
+                    }
+                    if (plugin.getConfig().getBoolean("death-messages.current")) {
+                        for (Player currentPlayer : player.getServer().getOnlinePlayers()) {
+                            currentPlayer.sendMessage(deadColor + "" + ChatColor.BOLD + player.getDisplayName() + ChatColor.RESET + " " + ChatColor.RED + "died!");
+                        }
+                    }
                 }
             }
         }

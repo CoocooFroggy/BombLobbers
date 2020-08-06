@@ -240,7 +240,7 @@ public class Main extends JavaPlugin {
         if (sender.hasPermission("bomblobbers.config")) {
             if (args.length < 2) {
                 //If "/bl config"
-                sender.sendMessage(ChatColor.RED + "Specify what to config. Options are: " + ChatColor.GOLD + "velocity, givetime, cooldown, directhitvelocity, directhitdamage, waterdamage, countdown, items, reset");
+                sender.sendMessage(ChatColor.RED + "Specify what to config. Options are: " + ChatColor.GOLD + "velocity, givetime, cooldown, directhitvelocity, directhitdamage, waterdamage, countdown, items, deathmessages, reset");
                 return false;
             }
             if (args[1].equalsIgnoreCase("velocity")) {
@@ -415,6 +415,21 @@ public class Main extends JavaPlugin {
                     return false;
                 }
             }
+            else if (args[1].equalsIgnoreCase("deathmessages")) {
+                //If "/bl config deathmessages"
+                if (args.length > 3) {
+                    sender.sendMessage(ChatColor.RED + "Usage: " + ChatColor.GOLD + "/bomblobbers config deathmessages");
+                }
+                boolean deathMessages = !plugin.getConfig().getBoolean("death-messages.current");
+                plugin.getConfig().set("death-messages.current", deathMessages);
+                if (deathMessages) {
+                    sender.sendMessage(ChatColor.GREEN + "Enabled death messages");
+                } else {
+                    sender.sendMessage(ChatColor.RED + "Disabled death messages");
+                }
+                plugin.saveConfig();
+                return true;
+            }
             else if (args[1].equalsIgnoreCase("reset")) {
                 //If "/bl config reset"
                 //Delete the config and make a new one
@@ -427,7 +442,7 @@ public class Main extends JavaPlugin {
             }
             else {
                 //If "/bl config ____"
-                sender.sendMessage(ChatColor.RED + "That is not a valid config. Options are: " + ChatColor.GOLD + "velocity, givetime, cooldown, directhitvelocity, directhitdamage, waterdamage, countdown, items, reset");
+                sender.sendMessage(ChatColor.RED + "That is not a valid config. Options are: " + ChatColor.GOLD + "velocity, givetime, cooldown, directhitvelocity, directhitdamage, waterdamage, countdown, items, deathmessages, reset");
                 return false;
             }
         } else {
