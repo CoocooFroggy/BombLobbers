@@ -264,7 +264,8 @@ public class Main extends JavaPlugin {
                 plugin.saveConfig();
                 sender.sendMessage(ChatColor.GREEN + "Successfully set the new velocity to " + ChatColor.GOLD + newVelocity + ChatColor.GREEN + "!");
                 return true;
-            } else if (args[1].equalsIgnoreCase("givetime")) {
+            }
+            else if (args[1].equalsIgnoreCase("givetime")) {
                 if (args.length < 3) {
                     //If "/bl config givetime"
                     sender.sendMessage(ChatColor.RED + "Specify the amount as an integer.");
@@ -286,7 +287,8 @@ public class Main extends JavaPlugin {
                 plugin.saveConfig();
                 sender.sendMessage(ChatColor.GREEN + "Successfully set the new give time to " + ChatColor.GOLD + newGiveTime + ChatColor.GREEN + "!");
                 return true;
-            } else if (args[1].equalsIgnoreCase("cooldown")) {
+            }
+            else if (args[1].equalsIgnoreCase("cooldown")) {
                 if (args.length < 3) {
                     //If "/bl config cooldown"
                     sender.sendMessage(ChatColor.RED + "Specify the amount as an integer.");
@@ -308,7 +310,8 @@ public class Main extends JavaPlugin {
                 plugin.saveConfig();
                 sender.sendMessage(ChatColor.GREEN + "Successfully set the new cooldown to " + ChatColor.GOLD + newCooldown + ChatColor.GREEN + "!");
                 return true;
-            } else if (args[1].equalsIgnoreCase("directhitvelocity")) {
+            }
+            else if (args[1].equalsIgnoreCase("directhitvelocity")) {
                 if (args.length < 3) {
                     //If "/bl config directhitvelocity"
                     sender.sendMessage(ChatColor.RED + "Specify the amount as a decimal.");
@@ -330,7 +333,8 @@ public class Main extends JavaPlugin {
                 plugin.saveConfig();
                 sender.sendMessage(ChatColor.GREEN + "Successfully set the new direct hit velocity to " + ChatColor.GOLD + newDirectHitVelocity + ChatColor.GREEN + "!");
                 return true;
-            } else if (args[1].equalsIgnoreCase("directhitdamage")) {
+            }
+            else if (args[1].equalsIgnoreCase("directhitdamage")) {
                 if (args.length < 3) {
                     //If "/bl config directhitdamage"
                     sender.sendMessage(ChatColor.RED + "Specify the amount as an integer.");
@@ -352,7 +356,8 @@ public class Main extends JavaPlugin {
                 plugin.saveConfig();
                 sender.sendMessage(ChatColor.GREEN + "Successfully set the new direct hit damage to " + ChatColor.GOLD + newDirectHitDamage + ChatColor.GREEN + "!");
                 return true;
-            } else if (args[1].equalsIgnoreCase("waterdamage")) {
+            }
+            else if (args[1].equalsIgnoreCase("waterdamage")) {
                 if (args.length < 3) {
                     //If "/bl config waterdamage"
                     sender.sendMessage(ChatColor.RED + "Specify the amount as an integer.");
@@ -374,7 +379,8 @@ public class Main extends JavaPlugin {
                 plugin.saveConfig();
                 sender.sendMessage(ChatColor.GREEN + "Successfully set the new water damage to " + ChatColor.GOLD + newWaterDamage + ChatColor.GREEN + "!");
                 return true;
-            } else if (args[1].equalsIgnoreCase("countdown")) {
+            }
+            else if (args[1].equalsIgnoreCase("countdown")) {
                 if (args.length < 3) {
                     //If "/bl config countdown"
                     sender.sendMessage(ChatColor.RED + "Specify the amount as an integer.");
@@ -396,9 +402,24 @@ public class Main extends JavaPlugin {
                 plugin.saveConfig();
                 sender.sendMessage(ChatColor.GREEN + "Successfully set the new countdown to " + ChatColor.GOLD + newCountdown + ChatColor.GREEN + "!");
                 return true;
-            } else {
+            }
+            else if (args[1].equalsIgnoreCase("items")) {
+                if (args.length < 3) {
+                    //If "/bl config items"
+                    if (sender instanceof Player) {
+                        Player player = (Player) sender;
+                        ManageItems.manageItems(player);
+                        return true;
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "You need to be a player to run this command.");
+                        return false;
+                    }
+                }
+                return true;
+            }
+            else {
                 //If "/bl config ____"
-                sender.sendMessage(ChatColor.RED + "That is not a valid config. Options are: " + ChatColor.GOLD + "velocity, givetime, cooldown, directhitvelocity, directhitdamage, waterdamage, countdown");
+                sender.sendMessage(ChatColor.RED + "That is not a valid config. Options are: " + ChatColor.GOLD + "velocity, givetime, cooldown, directhitvelocity, directhitdamage, waterdamage, countdown, items");
                 return false;
             }
         } else {

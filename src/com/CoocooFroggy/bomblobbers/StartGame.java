@@ -50,14 +50,8 @@ public class StartGame {
             playerList.get(i).sendMessage(ChatColor.GREEN + "" + ChatColor.BOLD + "Bomb lobbers starting soon!");
         }
 
-        //1 red stained glass pane
-        ItemStack paneStack = new ItemStack(Material.RED_STAINED_GLASS_PANE, 1);
-
-        //1 stack of scaffold
-        ItemStack scaffoldStack = new ItemStack(Material.SCAFFOLDING, 64);
-
-        //3 enderpearls
-        ItemStack enderPearlItemStack = new ItemStack(Material.ENDER_PEARL, 3);
+        //Get starting items
+        List<ItemStack> startingItems = (List<ItemStack>) plugin.getConfig().getList("startingItems");
 
         //Put everyone in adventure, clear their inventories (except for armor), give them items
         Bukkit.getScheduler().runTask(plugin, new Runnable() {
@@ -74,11 +68,11 @@ public class StartGame {
                     currentPlayer.updateInventory();
 
                     //Give players the items
-                    currentPlayer.getInventory().addItem(paneStack);
-                    currentPlayer.getInventory().addItem(scaffoldStack);
-                    currentPlayer.getInventory().addItem(scaffoldStack);
-                    currentPlayer.getInventory().addItem(enderPearlItemStack);
-
+                    for (ItemStack item : startingItems) {
+                        if (item == null)
+                            continue;
+                        currentPlayer.getInventory().addItem(item);
+                    }
                 }
             }
         });
@@ -139,7 +133,7 @@ public class StartGame {
         //Perform to all players
         for (int i = 0; i < playerList.size(); i++) {
             //Remove the pane placeholder
-            playerList.get(i).getInventory().removeItem(paneStack);
+            playerList.get(i).getInventory().removeItem(ManageItems.tntPlaceholder);
         }
 
         //Start giving TNT asynchronously

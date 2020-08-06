@@ -17,7 +17,7 @@ public class ChangeTeam {
     public static boolean changeTeam(Player player) {
         createInv();
         player.openInventory(inv);
-        return false;
+        return true;
     }
 
     public static void createInv() {
